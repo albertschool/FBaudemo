@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".MainActivity">
+    tools:context=".Loginok">
 
     <Space
         android:layout_width="0dp"
@@ -28,7 +28,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Register"
+            android:text="Login data:"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -37,43 +37,51 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <EditText
-            android:id="@+id/eTphone"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="phone"
-            android:inputType="phone" />
+            android:text="name" />
+
+        <TextView
+            android:id="@+id/tVnameview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5" />
 
-
-        <EditText
-            android:id="@+id/eTemail"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="e-mail"
-            android:inputType="textEmailAddress" />
+            android:text="e-mail" />
+
+        <TextView
+            android:id="@+id/tVemailview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5" />
 
-        <EditText
-            android:id="@+id/eTpass"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="password"
-            android:inputType="textPassword" />
+            android:text="Uid" />
+
+        <TextView
+            android:id="@+id/tVuidview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Space
             android:layout_width="match_parent"
@@ -81,7 +89,7 @@
             android:layout_weight="0.5" />
 
         <CheckBox
-            android:id="@+id/cBstayconnect"
+            android:id="@+id/cBconnectview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -107,20 +115,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:onClick="register"
-                android:text="Register" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:onClick="login"
-                android:text="Login" />
+                android:onClick="update"
+                android:text="Update connect" />
 
             <Space
                 android:layout_width="0dp"
