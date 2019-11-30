@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "737216968165",
+    "firebase_url": "https://fbaudemo-79d50.firebaseio.com",
+    "project_id": "fbaudemo-79d50",
+    "storage_bucket": "fbaudemo-79d50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737216968165:android:aa6f4528d66b3815976b0c",
+        "android_client_info": {
+          "package_name": "com.videxedge.fbaudemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737216968165-lbocv4ua7jeerts7cqtvhvdqol137bsi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.videxedge.fbaudemo",
+            "certificate_hash": "7531595e90e06c9d18dcfcac67342d3759c605f4"
+          }
+        },
+        {
+          "client_id": "737216968165-4s0qmel8qb5hrq8ee1d7u0qnk28mrpjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlJ_wKDQbnrjslhC5Ech-7WR1ZDfbBBe8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737216968165-4s0qmel8qb5hrq8ee1d7u0qnk28mrpjv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
