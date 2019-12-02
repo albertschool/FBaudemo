@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import static com.videxedge.fbaudemo.FBref.refAuth;
+import static com.videxedge.fbaudemo.FBref.refUsers;
 
 public class Loginok extends AppCompatActivity {
 
@@ -42,14 +44,18 @@ public class Loginok extends AppCompatActivity {
         uid = user.getUid();
         tVuidview.setText(uid);
         SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
-        Boolean isChecked=settings.getBoolean("isChecked",false);
+        Boolean isChecked=settings.getBoolean("stayConnect",false);
         cBconnectview.setChecked(isChecked);
     }
 
     public void update(View view) {
+        FirebaseUser user = refAuth.getCurrentUser();
+        if (!cBconnectview.isChecked()){
+            refAuth.signOut();
+        }
         SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
         SharedPreferences.Editor editor=settings.edit();
-        editor.putBoolean("isChecked",cBconnectview.isChecked());
+        editor.putBoolean("stayConnect",cBconnectview.isChecked());
         editor.commit();
         finish();
     }

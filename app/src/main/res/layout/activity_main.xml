@@ -38,6 +38,20 @@
             android:layout_weight="1" />
 
         <EditText
+            android:id="@+id/eTname"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="name"
+            android:inputType="textPersonName" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+
+        <EditText
             android:id="@+id/eTphone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -50,7 +64,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5" />
-
 
         <EditText
             android:id="@+id/eTemail"

@@ -25,9 +25,9 @@ import static com.videxedge.fbaudemo.FBref.refUsers;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText eTphone, eTemail, eTpass;
+    EditText eTname, eTphone, eTemail, eTpass;
     CheckBox cBstayconnect;
-    String phone, email, password, uid;
+    String name, phone, email, password, uid;
     User userdb;
     Intent si;
 
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        eTname=(EditText)findViewById(R.id.eTname);
         eTphone=(EditText)findViewById(R.id.eTphone);
         eTemail=(EditText)findViewById(R.id.eTemail);
         eTpass=(EditText)findViewById(R.id.eTpass);
@@ -62,31 +63,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
+        name=eTname.getText().toString();
         phone=eTphone.getText().toString();
         email=eTemail.getText().toString();
         password=eTpass.getText().toString();
+        final ProgressDialog pd=ProgressDialog.show(this,"Register","Registering...",true);
 
         refAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        pd.dismiss();
                         if (task.isSuccessful()) {
                             SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
                             SharedPreferences.Editor editor=settings.edit();
-                            editor.putBoolean("isChecked",cBstayconnect.isChecked());
+                            editor.putBoolean("stayConnect",cBstayconnect.isChecked());
                             editor.commit();
                             Log.d("MainActivity", "createUserWithEmail:success");
                             FirebaseUser user = refAuth.getCurrentUser();
                             uid = user.getUid();
-                            userdb=new User(email,phone,uid);
-                            refUsers.child(email.replace("."," ")).setValue(userdb);
+                            userdb=new User(name,email,phone,uid);
+                            refUsers.child(name).setValue(userdb);
                             Toast.makeText(MainActivity.this, "Successful registration", Toast.LENGTH_LONG).show();
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException)
                                 Toast.makeText(MainActivity.this, "User with e-mail already exist!", Toast.LENGTH_LONG).show();
                             else {
                                 Log.w("MainActivity", "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication failed.",Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "User create failed.",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -96,24 +100,24 @@ public class MainActivity extends AppCompatActivity {
     public void login(View view) {
         email=eTemail.getText().toString();
         password=eTpass.getText().toString();
-//        final ProgressDialog pd=ProgressDialog.show(this,"Login","Connecting...",true);
+        final ProgressDialog pd=ProgressDialog.show(this,"Login","Connecting...",true);
 
         refAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        pd.dismiss();
                         if (task.isSuccessful()) {
                             SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
                             SharedPreferences.Editor editor=settings.edit();
-                            editor.putBoolean("isChecked",cBstayconnect.isChecked());
+                            editor.putBoolean("stayConnect",cBstayconnect.isChecked());
                             editor.commit();
-                            Log.d("MainActivity", "createUserWithEmail:success");
+                            Log.d("MainActivity", "signinUserWithEmail:success");
                             si = new Intent(MainActivity.this,Loginok.class);
                             startActivity(si);
                         } else {
                             Log.d("MainActivity", "signinUserWithEmail:fail");
                             Toast.makeText(MainActivity.this, "e-mail or password are wrong!", Toast.LENGTH_LONG).show();
-//                            pd.dismiss();
                         }
                     }
                 });
