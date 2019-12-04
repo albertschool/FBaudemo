@@ -35,15 +35,14 @@ public class Loginok extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser user = refAuth.getCurrentUser();
-        name = user.getDisplayName();
-        tVnameview.setText(name);
+//        name = user.getDisplayName();
+//        tVnameview.setText(name);
         email = user.getEmail();
         tVemailview.setText(email);
         uid = user.getUid();
         tVuidview.setText(uid);
-        SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
+        SharedPreferences settings=getSharedPreferences("PREFS_NAME",MODE_PRIVATE);
         Boolean isChecked=settings.getBoolean("stayConnect",false);
         cBconnectview.setChecked(isChecked);
     }
@@ -53,7 +52,7 @@ public class Loginok extends AppCompatActivity {
         if (!cBconnectview.isChecked()){
             refAuth.signOut();
         }
-        SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
+        SharedPreferences settings=getSharedPreferences("PREFS_NAME",MODE_PRIVATE);
         SharedPreferences.Editor editor=settings.edit();
         editor.putBoolean("stayConnect",cBconnectview.isChecked());
         editor.commit();

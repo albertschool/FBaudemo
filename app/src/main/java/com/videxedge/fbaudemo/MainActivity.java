@@ -23,13 +23,20 @@ import com.google.firebase.auth.FirebaseUser;
 import static com.videxedge.fbaudemo.FBref.refAuth;
 import static com.videxedge.fbaudemo.FBref.refUsers;
 
+/**
+ * @author      Albert Levy <albert.school2015@gmail.com>
+ * @version     1.6
+ * @since		4/12/2019
+ * Main registration / login activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     EditText eTname, eTphone, eTemail, eTpass;
     CheckBox cBstayconnect;
+
     String name, phone, email, password, uid;
     User userdb;
-    Intent si;
+    Boolean stayConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,40 +49,58 @@ public class MainActivity extends AppCompatActivity {
         eTpass=(EditText)findViewById(R.id.eTpass);
         cBstayconnect=(CheckBox)findViewById(R.id.cBstayconnect);
 
+        stayConnect=false;
     }
 
+    /**
+     * On activity start - Checking if user already logged in.
+     * If logged in & asked to be remembered - pass on.
+     * <p>
+     */
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
-        Boolean isChecked=settings.getBoolean("isChecked",false);
+        SharedPreferences settings=getSharedPreferences("PREFS_NAME",MODE_PRIVATE);
+        Boolean isChecked=settings.getBoolean("stayConnect",false);
         Intent si = new Intent(MainActivity.this,Loginok.class);
         if (refAuth.getCurrentUser()!=null && isChecked) {
+            stayConnect=true;
             si = new Intent(MainActivity.this, Loginok.class);
             startActivity(si);
         }
     }
 
+    /**
+     * On activity pause - If logged in & asked to be remembered - kill activity.
+     * <p>
+     */
     @Override
     protected void onPause() {
         super.onPause();
-        finish();
+        if (stayConnect) finish();
     }
 
+    /**
+     * Registering to the application
+     * Using:   Firebase Auth with email & password
+     *          Firebase Realtime database with the object User to the branch Users
+     * If register process is Ok saving stay connect status & pass to next activity
+     * <p>
+     */
     public void register(View view) {
         name=eTname.getText().toString();
         phone=eTphone.getText().toString();
         email=eTemail.getText().toString();
         password=eTpass.getText().toString();
-        final ProgressDialog pd=ProgressDialog.show(this,"Register","Registering...",true);
 
+        final ProgressDialog pd=ProgressDialog.show(this,"Register","Registering...",true);
         refAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         pd.dismiss();
                         if (task.isSuccessful()) {
-                            SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
+                            SharedPreferences settings=getSharedPreferences("PREFS_NAME",MODE_PRIVATE);
                             SharedPreferences.Editor editor=settings.edit();
                             editor.putBoolean("stayConnect",cBstayconnect.isChecked());
                             editor.commit();
@@ -97,23 +122,29 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * login to the application
+     * Using:   Firebase Auth with email & password
+     * If login process is Ok saving stay connect status & pass to next activity
+     * <p>
+     */
     public void login(View view) {
         email=eTemail.getText().toString();
         password=eTpass.getText().toString();
-        final ProgressDialog pd=ProgressDialog.show(this,"Login","Connecting...",true);
 
+        final ProgressDialog pd=ProgressDialog.show(this,"Login","Connecting...",true);
         refAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         pd.dismiss();
                         if (task.isSuccessful()) {
-                            SharedPreferences settings=getSharedPreferences("PREFS_NAME",0);
+                            SharedPreferences settings=getSharedPreferences("PREFS_NAME",MODE_PRIVATE);
                             SharedPreferences.Editor editor=settings.edit();
                             editor.putBoolean("stayConnect",cBstayconnect.isChecked());
                             editor.commit();
                             Log.d("MainActivity", "signinUserWithEmail:success");
-                            si = new Intent(MainActivity.this,Loginok.class);
+                            Intent si = new Intent(MainActivity.this,Loginok.class);
                             startActivity(si);
                         } else {
                             Log.d("MainActivity", "signinUserWithEmail:fail");
